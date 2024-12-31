@@ -38,7 +38,7 @@ python cmdc.py
 
 ## Test MCCL model
 Code was tested on a RTX 3090.
-We provide the checkpoint files of our SOTA [her](https://drive.google.com/drive/folders/1QKpPl7ng004bH6iqPpUNJomcPHFVWyLF?usp=sharing) 
+We provide the checkpoint files of our SOTA [here](https://drive.google.com/drive/folders/1QKpPl7ng004bH6iqPpUNJomcPHFVWyLF?usp=sharing) 
 
 Please follow the below steps to test MCCL model on diverse datasets.
 1. Download checkpoint files and put them in `mccl/checkpoints` folder.
