@@ -38,7 +38,7 @@ python cmdc.py
 
 ## Test MCCL model
 The code was tested on an RTX 3090.
-We provide the checkpoint files on DAIC-WOZ dataset [here](https://drive.google.com/drive/folders/1QKpPl7ng004bH6iqPpUNJomcPHFVWyLF?usp=sharing)
+We provide the checkpoint files on DAIC-WOZ dataset [here](https://drive.google.com/drive/folders/1QKpPl7ng004bH6iqPpUNJomcPHFVWyLF?usp=sharing).
 
 Please follow the below steps to test the MCCL model on diverse datasets.
 1. Download checkpoint files and put them in `mccl/checkpoint/{dataset_name}` folder.
@@ -54,7 +54,7 @@ Please cite our work if you find it useful.
 The data processing of different datasets is based on the code [DepressionEstimation(DAIC)](https://github.com/PingCheng-Wei/DepressionEstimation.git), [AVEC2019(EDAIC)](https://github.com/AudioVisualEmotionChallenge/AVEC2019.git), [CMDC](https://github.com/CMDC-corpus/CMDC-Baseline.git). 
 
 ## Data links
-DAIC-WOZ and E-DAIC can be applied from [here](https://dcapswoz.ict.usc.edu/)
+DAIC-WOZ and E-DAIC can be applied from [here](https://dcapswoz.ict.usc.edu/).
 
 CMDC can be applied from [here](https://ieee-dataport.org/open-access/chinese-multimodal-depression-corpus).
 
