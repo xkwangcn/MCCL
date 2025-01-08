@@ -54,7 +54,7 @@ Please cite our work if you find it useful.
 The data processing of different datasets is based on the code [DepressionEstimation(DAIC)](https://github.com/PingCheng-Wei/DepressionEstimation.git), [AVEC2019(EDAIC)](https://github.com/AudioVisualEmotionChallenge/AVEC2019.git), [CMDC](https://github.com/CMDC-corpus/CMDC-Baseline.git). 
 
 ## Data links
-DAIC-WOZ and E-DAIC can be applied from: [here](https://dcapswoz.ict.usc.edu/)
+DAIC-WOZ and E-DAIC can be applied from [here](https://dcapswoz.ict.usc.edu/)
 
 CMDC can be applied from [here](https://ieee-dataport.org/open-access/chinese-multimodal-depression-corpus).
 
