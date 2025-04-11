@@ -1,0 +1,6847 @@
+mode: train
+dataset: DAIC
+gpu_ids: [1]
+device: cuda:1
+inference: 0
+seed: 42
+regressor_model: xgboost
+start_epoch: 0
+epochs: 300
+batch_size: 32
+num_classes: 1
+time_input: 2048
+efeature_dl: resnet
+efeature_tr: openface
+efeature_audio: bow_mfcc
+efeature_text: text
+norm: 0
+n_estimators: 50
+xg_lr: 0.08
+subsample: 0.75
+colsample_bytree: 1.0
+max_depth: 4
+gamma: 0.0
+n_jobs: -1
+tree_method: hist
+input_size_lstm: 512
+hidden_size_lstm: 64
+num_layers_lstm: 1
+hidden_size_lstm1: 32
+num_layers_lstm1: 1
+num_layers_lstm2: 1
+num_proj_hidden: 128
+bag_size_cues: 4
+bag_cues_feature1: 0
+bag_cues_feature2: 1
+bag_cues_feature3: 2
+bag_cues_feature4: 3
+bag_cues_feature5: 4
+sample_num: 10
+num_frames: 1260
+instance_length: 420
+model: multi_cues_clip_fix
+main_mode: train_sep
+learn_mode: cl
+head: 2
+scale: -0.5
+tau: 0.09
+optimizer: AdamW
+lr: 0.0005
+momentum: 0.9
+weight_decay: 0.05
+eps: 0.1
+label_smoothing: 0.1
+lr_scheduler: cosine
+warmup_epochs: 10
+min_lr: 5e-06
+warmup_lr: 0
+dataset_path: /mnt/wd1/cv_dep/2017/wpingcheng/DAIC_WOZ-generated_database_V2/
+output_path: ./outputs
+output_name: daic
+num_workers: 0
+light: 0
+ResNet(
+  (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (layer1): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer2): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer3): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer4): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc): Linear(in_features=512, out_features=1000, bias=True)
+)
+ResNet(
+  (conv1): Conv2d(3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
+  (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (relu): ReLU(inplace=True)
+  (maxpool): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (layer1): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer2): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(64, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(64, 128, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer3): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(128, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(128, 256, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (layer4): Sequential(
+    (0): BasicBlock(
+      (conv1): Conv2d(256, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (downsample): Sequential(
+        (0): Conv2d(256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False)
+        (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      )
+    )
+    (1): BasicBlock(
+      (conv1): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+      (conv2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+      (bn2): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+  )
+  (avgpool): AdaptiveAvgPool2d(output_size=(1, 1))
+  (fc): Linear(in_features=512, out_features=1000, bias=True)
+)
+len:  107
+len:  107
+********************1********************
+len:  107
+len:  107
+Training epoch 	1: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	1: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	1: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	1: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(4.2336, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9752183,rmse=6.1202307
+val_mae=4.9752
+will update:mae=4.9752183,rmse=6.1202307
+
+Currebt best mae=4.9752183,rmse=6.1202307
+********************2********************
+len:  107
+len:  107
+Training epoch 	2: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	2: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	2: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	2: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(4.2047, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.314388,rmse=6.51125
+val_mae=5.3144
+Currebt best mae=4.9752183,rmse=6.1202307
+********************3********************
+len:  107
+len:  107
+Training epoch 	3: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	3: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	3: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	3: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(4.1597, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.5886946,rmse=6.9535685
+val_mae=5.5887
+Currebt best mae=4.9752183,rmse=6.1202307
+********************4********************
+len:  107
+len:  107
+Training epoch 	4: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	4: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	4: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	4: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(4.1060, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.3003516,rmse=6.82033
+val_mae=5.3004
+Currebt best mae=4.9752183,rmse=6.1202307
+********************5********************
+len:  107
+len:  107
+Training epoch 	5: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	5: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	5: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	5: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(4.0497, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.426952,rmse=6.7367883
+val_mae=5.4270
+Currebt best mae=4.9752183,rmse=6.1202307
+********************6********************
+len:  107
+len:  107
+Training epoch 	6: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	6: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	6: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	6: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.9961, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.11336,rmse=6.490408
+val_mae=5.1134
+Currebt best mae=4.9752183,rmse=6.1202307
+********************7********************
+len:  107
+len:  107
+Training epoch 	7: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	7: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	7: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	7: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.9479, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.072914,rmse=6.39614
+val_mae=5.0729
+Currebt best mae=4.9752183,rmse=6.1202307
+********************8********************
+len:  107
+len:  107
+Training epoch 	8: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	8: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	8: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	8: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.9063, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.303203,rmse=6.593485
+val_mae=5.3032
+Currebt best mae=4.9752183,rmse=6.1202307
+********************9********************
+len:  107
+len:  107
+Training epoch 	9: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	9: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	9: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	9: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.8712, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.323415,rmse=6.7574506
+val_mae=5.3234
+Currebt best mae=4.9752183,rmse=6.1202307
+********************10********************
+len:  107
+len:  107
+Training epoch 	10: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	10: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	10: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	10: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.8414, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7471404,rmse=6.2708187
+val_mae=4.7471
+will update:mae=4.7471404,rmse=6.2708187
+
+Currebt best mae=4.7471404,rmse=6.2708187
+********************11********************
+len:  107
+len:  107
+Training epoch 	11: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	11: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	11: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	11: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.8159, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.86243,rmse=6.515369
+val_mae=4.8624
+Currebt best mae=4.7471404,rmse=6.2708187
+********************12********************
+len:  107
+len:  107
+Training epoch 	12: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	12: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	12: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	12: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.7931, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7365894,rmse=6.2548604
+val_mae=4.7366
+will update:mae=4.7365894,rmse=6.2548604
+
+Currebt best mae=4.7365894,rmse=6.2548604
+********************13********************
+len:  107
+len:  107
+Training epoch 	13: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	13: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	13: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	13: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.7713, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9287443,rmse=6.315999
+val_mae=4.9287
+Currebt best mae=4.7365894,rmse=6.2548604
+********************14********************
+len:  107
+len:  107
+Training epoch 	14: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	14: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	14: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	14: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.7492, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.271839,rmse=6.7848597
+val_mae=5.2718
+Currebt best mae=4.7365894,rmse=6.2548604
+********************15********************
+len:  107
+len:  107
+Training epoch 	15: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	15: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	15: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	15: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.7265, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.075207,rmse=6.5688205
+val_mae=5.0752
+Currebt best mae=4.7365894,rmse=6.2548604
+********************16********************
+len:  107
+len:  107
+Training epoch 	16: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	16: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	16: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	16: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.7028, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.216183,rmse=6.5902367
+val_mae=5.2162
+Currebt best mae=4.7365894,rmse=6.2548604
+********************17********************
+len:  107
+len:  107
+Training epoch 	17: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	17: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	17: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	17: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.6777, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.852033,rmse=6.1646075
+val_mae=4.8520
+Currebt best mae=4.7365894,rmse=6.2548604
+********************18********************
+len:  107
+len:  107
+Training epoch 	18: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	18: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	18: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	18: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.6511, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9231644,rmse=6.5100946
+val_mae=4.9232
+Currebt best mae=4.7365894,rmse=6.2548604
+********************19********************
+len:  107
+len:  107
+Training epoch 	19: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	19: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	19: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	19: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.6230, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9362464,rmse=6.342109
+val_mae=4.9362
+Currebt best mae=4.7365894,rmse=6.2548604
+********************20********************
+len:  107
+len:  107
+Training epoch 	20: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	20: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	20: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	20: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.5927, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0413384,rmse=6.4885864
+val_mae=5.0413
+Currebt best mae=4.7365894,rmse=6.2548604
+********************21********************
+len:  107
+len:  107
+Training epoch 	21: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	21: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	21: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	21: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.5605, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.245226,rmse=6.749451
+val_mae=5.2452
+Currebt best mae=4.7365894,rmse=6.2548604
+********************22********************
+len:  107
+len:  107
+Training epoch 	22: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	22: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	22: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	22: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.5263, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.5322104,rmse=6.812603
+val_mae=5.5322
+Currebt best mae=4.7365894,rmse=6.2548604
+********************23********************
+len:  107
+len:  107
+Training epoch 	23: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	23: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	23: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	23: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.4903, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.944028,rmse=6.3367095
+val_mae=4.9440
+Currebt best mae=4.7365894,rmse=6.2548604
+********************24********************
+len:  107
+len:  107
+Training epoch 	24: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	24: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	24: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	24: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.4507, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.500665,rmse=6.9968643
+val_mae=5.5007
+Currebt best mae=4.7365894,rmse=6.2548604
+********************25********************
+len:  107
+len:  107
+Training epoch 	25: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	25: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	25: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	25: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.4093, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9040046,rmse=6.5931096
+val_mae=4.9040
+Currebt best mae=4.7365894,rmse=6.2548604
+********************26********************
+len:  107
+len:  107
+Training epoch 	26: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	26: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	26: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	26: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.3629, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.302657,rmse=6.8170543
+val_mae=5.3027
+Currebt best mae=4.7365894,rmse=6.2548604
+********************27********************
+len:  107
+len:  107
+Training epoch 	27: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	27: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	27: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	27: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.3131, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.2484975,rmse=6.732502
+val_mae=5.2485
+Currebt best mae=4.7365894,rmse=6.2548604
+********************28********************
+len:  107
+len:  107
+Training epoch 	28: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	28: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	28: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	28: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.2602, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.2481833,rmse=6.6775804
+val_mae=5.2482
+Currebt best mae=4.7365894,rmse=6.2548604
+********************29********************
+len:  107
+len:  107
+Training epoch 	29: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	29: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	29: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	29: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.2043, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.103953,rmse=6.6781487
+val_mae=5.1040
+Currebt best mae=4.7365894,rmse=6.2548604
+********************30********************
+len:  107
+len:  107
+Training epoch 	30: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	30: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	30: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	30: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.1452, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.164589,rmse=6.898973
+val_mae=5.1646
+Currebt best mae=4.7365894,rmse=6.2548604
+********************31********************
+len:  107
+len:  107
+Training epoch 	31: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	31: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	31: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	31: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.0826, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.354586,rmse=6.735225
+val_mae=5.3546
+Currebt best mae=4.7365894,rmse=6.2548604
+********************32********************
+len:  107
+len:  107
+Training epoch 	32: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	32: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	32: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	32: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(3.0164, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.52973,rmse=6.803427
+val_mae=5.5297
+Currebt best mae=4.7365894,rmse=6.2548604
+********************33********************
+len:  107
+len:  107
+Training epoch 	33: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	33: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	33: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	33: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.9468, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.366932,rmse=6.8762965
+val_mae=5.3669
+Currebt best mae=4.7365894,rmse=6.2548604
+********************34********************
+len:  107
+len:  107
+Training epoch 	34: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	34: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	34: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	34: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.8741, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.1433673,rmse=6.706625
+val_mae=5.1434
+Currebt best mae=4.7365894,rmse=6.2548604
+********************35********************
+len:  107
+len:  107
+Training epoch 	35: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	35: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	35: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	35: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.7985, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.4107447,rmse=6.84244
+val_mae=5.4107
+Currebt best mae=4.7365894,rmse=6.2548604
+********************36********************
+len:  107
+len:  107
+Training epoch 	36: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	36: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	36: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	36: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.7215, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.4776115,rmse=7.105644
+val_mae=5.4776
+Currebt best mae=4.7365894,rmse=6.2548604
+********************37********************
+len:  107
+len:  107
+Training epoch 	37: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	37: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	37: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	37: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.6423, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.676085,rmse=7.240123
+val_mae=5.6761
+Currebt best mae=4.7365894,rmse=6.2548604
+********************38********************
+len:  107
+len:  107
+Training epoch 	38: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	38: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	38: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	38: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.5623, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.3348265,rmse=6.6444993
+val_mae=5.3348
+Currebt best mae=4.7365894,rmse=6.2548604
+********************39********************
+len:  107
+len:  107
+Training epoch 	39: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	39: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	39: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	39: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.4812, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.6176124,rmse=7.011658
+val_mae=5.6176
+Currebt best mae=4.7365894,rmse=6.2548604
+********************40********************
+len:  107
+len:  107
+Training epoch 	40: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	40: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	40: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	40: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.3991, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.1207843,rmse=6.362065
+val_mae=5.1208
+Currebt best mae=4.7365894,rmse=6.2548604
+********************41********************
+len:  107
+len:  107
+Training epoch 	41: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	41: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	41: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	41: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.3159, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.245416,rmse=6.629687
+val_mae=5.2454
+Currebt best mae=4.7365894,rmse=6.2548604
+********************42********************
+len:  107
+len:  107
+Training epoch 	42: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	42: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	42: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	42: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.2314, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.2973757,rmse=6.6504087
+val_mae=5.2974
+Currebt best mae=4.7365894,rmse=6.2548604
+********************43********************
+len:  107
+len:  107
+Training epoch 	43: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	43: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	43: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	43: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.1464, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.5412626,rmse=6.866814
+val_mae=5.5413
+Currebt best mae=4.7365894,rmse=6.2548604
+********************44********************
+len:  107
+len:  107
+Training epoch 	44: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	44: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	44: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	44: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(2.0619, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0302644,rmse=6.4843993
+val_mae=5.0303
+Currebt best mae=4.7365894,rmse=6.2548604
+********************45********************
+len:  107
+len:  107
+Training epoch 	45: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	45: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	45: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	45: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.9797, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.2050996,rmse=6.539436
+val_mae=5.2051
+Currebt best mae=4.7365894,rmse=6.2548604
+********************46********************
+len:  107
+len:  107
+Training epoch 	46: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	46: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	46: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	46: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.8919, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.022751,rmse=6.422057
+val_mae=5.0228
+Currebt best mae=4.7365894,rmse=6.2548604
+********************47********************
+len:  107
+len:  107
+Training epoch 	47: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	47: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	47: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	47: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.8106, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9283323,rmse=6.245028
+val_mae=4.9283
+Currebt best mae=4.7365894,rmse=6.2548604
+********************48********************
+len:  107
+len:  107
+Training epoch 	48: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	48: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	48: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	48: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.7285, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.924677,rmse=6.400675
+val_mae=4.9247
+Currebt best mae=4.7365894,rmse=6.2548604
+********************49********************
+len:  107
+len:  107
+Training epoch 	49: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	49: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	49: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	49: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.6468, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.1441684,rmse=6.591736
+val_mae=5.1442
+Currebt best mae=4.7365894,rmse=6.2548604
+********************50********************
+len:  107
+len:  107
+Training epoch 	50: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	50: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	50: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	50: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.5700, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.099485,rmse=6.6244054
+val_mae=5.0995
+Currebt best mae=4.7365894,rmse=6.2548604
+********************51********************
+len:  107
+len:  107
+Training epoch 	51: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	51: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	51: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	51: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.4907, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.90218,rmse=6.208692
+val_mae=4.9022
+Currebt best mae=4.7365894,rmse=6.2548604
+********************52********************
+len:  107
+len:  107
+Training epoch 	52: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	52: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	52: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	52: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.4177, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.874063,rmse=6.348363
+val_mae=4.8741
+Currebt best mae=4.7365894,rmse=6.2548604
+********************53********************
+len:  107
+len:  107
+Training epoch 	53: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	53: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	53: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	53: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.3453, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8856177,rmse=6.2847486
+val_mae=4.8856
+Currebt best mae=4.7365894,rmse=6.2548604
+********************54********************
+len:  107
+len:  107
+Training epoch 	54: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	54: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	54: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	54: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.2567, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.044379,rmse=6.3944793
+val_mae=5.0444
+Currebt best mae=4.7365894,rmse=6.2548604
+********************55********************
+len:  107
+len:  107
+Training epoch 	55: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	55: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	55: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	55: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.1779, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8460326,rmse=6.3254833
+val_mae=4.8460
+Currebt best mae=4.7365894,rmse=6.2548604
+********************56********************
+len:  107
+len:  107
+Training epoch 	56: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	56: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	56: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	56: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.0978, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0812507,rmse=6.508541
+val_mae=5.0813
+Currebt best mae=4.7365894,rmse=6.2548604
+********************57********************
+len:  107
+len:  107
+Training epoch 	57: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	57: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	57: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	57: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(1.0272, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.595926,rmse=6.079288
+val_mae=4.5959
+will update:mae=4.595926,rmse=6.079288
+
+Currebt best mae=4.595926,rmse=6.079288
+********************58********************
+len:  107
+len:  107
+Training epoch 	58: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	58: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	58: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	58: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.9659, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.800267,rmse=6.4293857
+val_mae=4.8003
+Currebt best mae=4.595926,rmse=6.079288
+********************59********************
+len:  107
+len:  107
+Training epoch 	59: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	59: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	59: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	59: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.9250, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9387083,rmse=6.409579
+val_mae=4.9387
+Currebt best mae=4.595926,rmse=6.079288
+********************60********************
+len:  107
+len:  107
+Training epoch 	60: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	60: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	60: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	60: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.8427, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.430648,rmse=6.1095996
+val_mae=4.4306
+will update:mae=4.430648,rmse=6.1095996
+
+Currebt best mae=4.430648,rmse=6.1095996
+********************61********************
+len:  107
+len:  107
+Training epoch 	61: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	61: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	61: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	61: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.7853, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.242126,rmse=6.654459
+val_mae=5.2421
+Currebt best mae=4.430648,rmse=6.1095996
+********************62********************
+len:  107
+len:  107
+Training epoch 	62: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	62: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	62: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	62: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.7290, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8492384,rmse=5.961903
+val_mae=4.8492
+Currebt best mae=4.430648,rmse=6.1095996
+********************63********************
+len:  107
+len:  107
+Training epoch 	63: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	63: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	63: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	63: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.6776, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.991996,rmse=6.3357215
+val_mae=4.9920
+Currebt best mae=4.430648,rmse=6.1095996
+********************64********************
+len:  107
+len:  107
+Training epoch 	64: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	64: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	64: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	64: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.6221, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.262092,rmse=6.786888
+val_mae=5.2621
+Currebt best mae=4.430648,rmse=6.1095996
+********************65********************
+len:  107
+len:  107
+Training epoch 	65: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	65: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	65: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	65: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.5707, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.2628126,rmse=6.8730297
+val_mae=5.2628
+Currebt best mae=4.430648,rmse=6.1095996
+********************66********************
+len:  107
+len:  107
+Training epoch 	66: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	66: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	66: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	66: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.5292, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9904294,rmse=6.549472
+val_mae=4.9904
+Currebt best mae=4.430648,rmse=6.1095996
+********************67********************
+len:  107
+len:  107
+Training epoch 	67: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	67: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	67: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	67: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.4944, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.056383,rmse=6.3828416
+val_mae=5.0564
+Currebt best mae=4.430648,rmse=6.1095996
+********************68********************
+len:  107
+len:  107
+Training epoch 	68: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	68: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	68: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	68: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.4608, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7988963,rmse=6.290302
+val_mae=4.7989
+Currebt best mae=4.430648,rmse=6.1095996
+********************69********************
+len:  107
+len:  107
+Training epoch 	69: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	69: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	69: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	69: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.4301, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.746444,rmse=6.184892
+val_mae=4.7464
+Currebt best mae=4.430648,rmse=6.1095996
+********************70********************
+len:  107
+len:  107
+Training epoch 	70: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	70: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	70: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	70: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.4034, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.679776,rmse=6.1277647
+val_mae=4.6798
+Currebt best mae=4.430648,rmse=6.1095996
+********************71********************
+len:  107
+len:  107
+Training epoch 	71: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	71: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	71: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	71: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.3787, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.666447,rmse=6.2160897
+val_mae=4.6664
+Currebt best mae=4.430648,rmse=6.1095996
+********************72********************
+len:  107
+len:  107
+Training epoch 	72: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	72: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	72: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	72: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.3567, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5517297,rmse=6.1153984
+val_mae=4.5517
+Currebt best mae=4.430648,rmse=6.1095996
+********************73********************
+len:  107
+len:  107
+Training epoch 	73: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	73: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	73: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	73: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.3367, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8541193,rmse=6.294057
+val_mae=4.8541
+Currebt best mae=4.430648,rmse=6.1095996
+********************74********************
+len:  107
+len:  107
+Training epoch 	74: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	74: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	74: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	74: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.3187, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8682923,rmse=6.3577185
+val_mae=4.8683
+Currebt best mae=4.430648,rmse=6.1095996
+********************75********************
+len:  107
+len:  107
+Training epoch 	75: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	75: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	75: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	75: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.3024, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7214437,rmse=6.1377
+val_mae=4.7214
+Currebt best mae=4.430648,rmse=6.1095996
+********************76********************
+len:  107
+len:  107
+Training epoch 	76: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	76: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	76: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	76: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2874, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.635382,rmse=6.1826158
+val_mae=4.6354
+Currebt best mae=4.430648,rmse=6.1095996
+********************77********************
+len:  107
+len:  107
+Training epoch 	77: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	77: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	77: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	77: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2737, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.940513,rmse=6.374828
+val_mae=4.9405
+Currebt best mae=4.430648,rmse=6.1095996
+********************78********************
+len:  107
+len:  107
+Training epoch 	78: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	78: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	78: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	78: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2612, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7590017,rmse=6.028265
+val_mae=4.7590
+Currebt best mae=4.430648,rmse=6.1095996
+********************79********************
+len:  107
+len:  107
+Training epoch 	79: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	79: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	79: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	79: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2498, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.706588,rmse=6.1101913
+val_mae=4.7066
+Currebt best mae=4.430648,rmse=6.1095996
+********************80********************
+len:  107
+len:  107
+Training epoch 	80: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	80: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	80: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	80: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2393, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8508673,rmse=6.3965693
+val_mae=4.8509
+Currebt best mae=4.430648,rmse=6.1095996
+********************81********************
+len:  107
+len:  107
+Training epoch 	81: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	81: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	81: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	81: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2297, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.646863,rmse=6.0705614
+val_mae=4.6469
+Currebt best mae=4.430648,rmse=6.1095996
+********************82********************
+len:  107
+len:  107
+Training epoch 	82: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	82: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	82: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	82: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2208, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7111287,rmse=6.0941815
+val_mae=4.7111
+Currebt best mae=4.430648,rmse=6.1095996
+********************83********************
+len:  107
+len:  107
+Training epoch 	83: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	83: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	83: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	83: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2126, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.614271,rmse=5.9288573
+val_mae=4.6143
+Currebt best mae=4.430648,rmse=6.1095996
+********************84********************
+len:  107
+len:  107
+Training epoch 	84: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	84: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	84: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	84: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.2051, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5420384,rmse=6.010273
+val_mae=4.5420
+Currebt best mae=4.430648,rmse=6.1095996
+********************85********************
+len:  107
+len:  107
+Training epoch 	85: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	85: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	85: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	85: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1980, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.67285,rmse=6.043134
+val_mae=4.6729
+Currebt best mae=4.430648,rmse=6.1095996
+********************86********************
+len:  107
+len:  107
+Training epoch 	86: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	86: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	86: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	86: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1914, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8714967,rmse=6.210843
+val_mae=4.8715
+Currebt best mae=4.430648,rmse=6.1095996
+********************87********************
+len:  107
+len:  107
+Training epoch 	87: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	87: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	87: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	87: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1853, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8421555,rmse=6.2027817
+val_mae=4.8422
+Currebt best mae=4.430648,rmse=6.1095996
+********************88********************
+len:  107
+len:  107
+Training epoch 	88: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	88: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	88: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	88: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1796, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.58689,rmse=6.01934
+val_mae=4.5869
+Currebt best mae=4.430648,rmse=6.1095996
+********************89********************
+len:  107
+len:  107
+Training epoch 	89: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	89: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	89: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	89: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1743, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0375977,rmse=6.3709784
+val_mae=5.0376
+Currebt best mae=4.430648,rmse=6.1095996
+********************90********************
+len:  107
+len:  107
+Training epoch 	90: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	90: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	90: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	90: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1693, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.064431,rmse=6.4492493
+val_mae=5.0644
+Currebt best mae=4.430648,rmse=6.1095996
+********************91********************
+len:  107
+len:  107
+Training epoch 	91: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	91: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	91: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	91: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1646, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.857918,rmse=6.2093387
+val_mae=4.8579
+Currebt best mae=4.430648,rmse=6.1095996
+********************92********************
+len:  107
+len:  107
+Training epoch 	92: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	92: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	92: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	92: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1602, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.954803,rmse=6.2999506
+val_mae=4.9548
+Currebt best mae=4.430648,rmse=6.1095996
+********************93********************
+len:  107
+len:  107
+Training epoch 	93: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	93: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	93: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	93: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1561, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.3138847,rmse=6.5696955
+val_mae=5.3139
+Currebt best mae=4.430648,rmse=6.1095996
+********************94********************
+len:  107
+len:  107
+Training epoch 	94: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	94: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	94: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	94: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0044246,rmse=6.317587
+val_mae=5.0044
+Currebt best mae=4.430648,rmse=6.1095996
+********************95********************
+len:  107
+len:  107
+Training epoch 	95: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	95: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	95: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	95: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1485, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0571465,rmse=6.545908
+val_mae=5.0571
+Currebt best mae=4.430648,rmse=6.1095996
+********************96********************
+len:  107
+len:  107
+Training epoch 	96: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	96: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	96: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	96: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1450, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.053967,rmse=6.3889966
+val_mae=5.0540
+Currebt best mae=4.430648,rmse=6.1095996
+********************97********************
+len:  107
+len:  107
+Training epoch 	97: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	97: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	97: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	97: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1417, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.997365,rmse=6.356775
+val_mae=4.9974
+Currebt best mae=4.430648,rmse=6.1095996
+********************98********************
+len:  107
+len:  107
+Training epoch 	98: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	98: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	98: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	98: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1385, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0225725,rmse=6.412126
+val_mae=5.0226
+Currebt best mae=4.430648,rmse=6.1095996
+********************99********************
+len:  107
+len:  107
+Training epoch 	99: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	99: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	99: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	99: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1355, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8254747,rmse=6.2546115
+val_mae=4.8255
+Currebt best mae=4.430648,rmse=6.1095996
+********************100********************
+len:  107
+len:  107
+Training epoch 	100: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	100: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	100: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	100: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1327, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.943827,rmse=6.2625985
+val_mae=4.9438
+Currebt best mae=4.430648,rmse=6.1095996
+********************101********************
+len:  107
+len:  107
+Training epoch 	101: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	101: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	101: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	101: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1300, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.796337,rmse=6.0983324
+val_mae=4.7963
+Currebt best mae=4.430648,rmse=6.1095996
+********************102********************
+len:  107
+len:  107
+Training epoch 	102: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	102: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	102: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	102: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1274, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.920476,rmse=6.1910787
+val_mae=4.9205
+Currebt best mae=4.430648,rmse=6.1095996
+********************103********************
+len:  107
+len:  107
+Training epoch 	103: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	103: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	103: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	103: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1250, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.046335,rmse=6.2266498
+val_mae=5.0463
+Currebt best mae=4.430648,rmse=6.1095996
+********************104********************
+len:  107
+len:  107
+Training epoch 	104: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	104: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	104: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	104: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1226, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9574347,rmse=6.187436
+val_mae=4.9574
+Currebt best mae=4.430648,rmse=6.1095996
+********************105********************
+len:  107
+len:  107
+Training epoch 	105: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	105: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	105: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	105: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1204, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8028436,rmse=6.109435
+val_mae=4.8028
+Currebt best mae=4.430648,rmse=6.1095996
+********************106********************
+len:  107
+len:  107
+Training epoch 	106: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	106: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	106: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	106: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1183, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.985652,rmse=6.2517824
+val_mae=4.9857
+Currebt best mae=4.430648,rmse=6.1095996
+********************107********************
+len:  107
+len:  107
+Training epoch 	107: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	107: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	107: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	107: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1162, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8217645,rmse=6.1444864
+val_mae=4.8218
+Currebt best mae=4.430648,rmse=6.1095996
+********************108********************
+len:  107
+len:  107
+Training epoch 	108: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	108: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	108: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	108: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1143, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8698916,rmse=6.2154937
+val_mae=4.8699
+Currebt best mae=4.430648,rmse=6.1095996
+********************109********************
+len:  107
+len:  107
+Training epoch 	109: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	109: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	109: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	109: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1124, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9351892,rmse=6.287496
+val_mae=4.9352
+Currebt best mae=4.430648,rmse=6.1095996
+********************110********************
+len:  107
+len:  107
+Training epoch 	110: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	110: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	110: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	110: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1106, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.833326,rmse=6.1362414
+val_mae=4.8333
+Currebt best mae=4.430648,rmse=6.1095996
+********************111********************
+len:  107
+len:  107
+Training epoch 	111: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	111: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	111: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	111: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1089, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.1829295,rmse=6.48133
+val_mae=5.1829
+Currebt best mae=4.430648,rmse=6.1095996
+********************112********************
+len:  107
+len:  107
+Training epoch 	112: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	112: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	112: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	112: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1072, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8372746,rmse=6.090581
+val_mae=4.8373
+Currebt best mae=4.430648,rmse=6.1095996
+********************113********************
+len:  107
+len:  107
+Training epoch 	113: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	113: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	113: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	113: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1056, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.649115,rmse=6.026223
+val_mae=4.6491
+Currebt best mae=4.430648,rmse=6.1095996
+********************114********************
+len:  107
+len:  107
+Training epoch 	114: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	114: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	114: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	114: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1041, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8982625,rmse=6.146548
+val_mae=4.8983
+Currebt best mae=4.430648,rmse=6.1095996
+********************115********************
+len:  107
+len:  107
+Training epoch 	115: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	115: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	115: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	115: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1026, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6623073,rmse=5.7822695
+val_mae=4.6623
+Currebt best mae=4.430648,rmse=6.1095996
+********************116********************
+len:  107
+len:  107
+Training epoch 	116: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	116: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	116: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	116: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.1012, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.83413,rmse=6.1939564
+val_mae=4.8341
+Currebt best mae=4.430648,rmse=6.1095996
+********************117********************
+len:  107
+len:  107
+Training epoch 	117: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	117: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	117: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	117: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0998, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9560475,rmse=6.2317557
+val_mae=4.9560
+Currebt best mae=4.430648,rmse=6.1095996
+********************118********************
+len:  107
+len:  107
+Training epoch 	118: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	118: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	118: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	118: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0985, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.018072,rmse=6.352312
+val_mae=5.0181
+Currebt best mae=4.430648,rmse=6.1095996
+********************119********************
+len:  107
+len:  107
+Training epoch 	119: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	119: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	119: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	119: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0972, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8591824,rmse=6.1902328
+val_mae=4.8592
+Currebt best mae=4.430648,rmse=6.1095996
+********************120********************
+len:  107
+len:  107
+Training epoch 	120: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	120: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	120: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	120: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0960, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.1278253,rmse=6.5144577
+val_mae=5.1278
+Currebt best mae=4.430648,rmse=6.1095996
+********************121********************
+len:  107
+len:  107
+Training epoch 	121: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	121: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	121: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	121: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0948, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.786414,rmse=6.3011312
+val_mae=4.7864
+Currebt best mae=4.430648,rmse=6.1095996
+********************122********************
+len:  107
+len:  107
+Training epoch 	122: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	122: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	122: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	122: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0936, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6258264,rmse=6.024499
+val_mae=4.6258
+Currebt best mae=4.430648,rmse=6.1095996
+********************123********************
+len:  107
+len:  107
+Training epoch 	123: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	123: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	123: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	123: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0925, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.76636,rmse=6.154524
+val_mae=4.7664
+Currebt best mae=4.430648,rmse=6.1095996
+********************124********************
+len:  107
+len:  107
+Training epoch 	124: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	124: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	124: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	124: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0914, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7123713,rmse=5.96605
+val_mae=4.7124
+Currebt best mae=4.430648,rmse=6.1095996
+********************125********************
+len:  107
+len:  107
+Training epoch 	125: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	125: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	125: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	125: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0904, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6280622,rmse=5.963382
+val_mae=4.6281
+Currebt best mae=4.430648,rmse=6.1095996
+********************126********************
+len:  107
+len:  107
+Training epoch 	126: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	126: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	126: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	126: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0894, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6538825,rmse=5.7846317
+val_mae=4.6539
+Currebt best mae=4.430648,rmse=6.1095996
+********************127********************
+len:  107
+len:  107
+Training epoch 	127: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	127: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	127: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	127: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0884, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.703215,rmse=5.935569
+val_mae=4.7032
+Currebt best mae=4.430648,rmse=6.1095996
+********************128********************
+len:  107
+len:  107
+Training epoch 	128: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	128: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	128: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	128: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0874, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.820337,rmse=6.16441
+val_mae=4.8203
+Currebt best mae=4.430648,rmse=6.1095996
+********************129********************
+len:  107
+len:  107
+Training epoch 	129: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	129: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	129: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	129: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0865, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.631917,rmse=5.9319954
+val_mae=4.6319
+Currebt best mae=4.430648,rmse=6.1095996
+********************130********************
+len:  107
+len:  107
+Training epoch 	130: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	130: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	130: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	130: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0856, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6606116,rmse=6.051809
+val_mae=4.6606
+Currebt best mae=4.430648,rmse=6.1095996
+********************131********************
+len:  107
+len:  107
+Training epoch 	131: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	131: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	131: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	131: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0848, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7974706,rmse=6.2293687
+val_mae=4.7975
+Currebt best mae=4.430648,rmse=6.1095996
+********************132********************
+len:  107
+len:  107
+Training epoch 	132: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	132: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	132: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	132: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0839, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0157647,rmse=6.3177276
+val_mae=5.0158
+Currebt best mae=4.430648,rmse=6.1095996
+********************133********************
+len:  107
+len:  107
+Training epoch 	133: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	133: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	133: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	133: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0831, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.970271,rmse=6.374171
+val_mae=4.9703
+Currebt best mae=4.430648,rmse=6.1095996
+********************134********************
+len:  107
+len:  107
+Training epoch 	134: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	134: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	134: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	134: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0823, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5650263,rmse=6.1388807
+val_mae=4.5650
+Currebt best mae=4.430648,rmse=6.1095996
+********************135********************
+len:  107
+len:  107
+Training epoch 	135: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	135: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	135: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	135: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0816, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.907116,rmse=6.267278
+val_mae=4.9071
+Currebt best mae=4.430648,rmse=6.1095996
+********************136********************
+len:  107
+len:  107
+Training epoch 	136: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	136: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	136: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	136: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0808, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9089284,rmse=6.262688
+val_mae=4.9089
+Currebt best mae=4.430648,rmse=6.1095996
+********************137********************
+len:  107
+len:  107
+Training epoch 	137: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	137: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	137: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	137: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0801, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.950255,rmse=6.3269215
+val_mae=4.9503
+Currebt best mae=4.430648,rmse=6.1095996
+********************138********************
+len:  107
+len:  107
+Training epoch 	138: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	138: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	138: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	138: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0794, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.904157,rmse=6.19312
+val_mae=4.9042
+Currebt best mae=4.430648,rmse=6.1095996
+********************139********************
+len:  107
+len:  107
+Training epoch 	139: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	139: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	139: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	139: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0787, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7157283,rmse=6.0386553
+val_mae=4.7157
+Currebt best mae=4.430648,rmse=6.1095996
+********************140********************
+len:  107
+len:  107
+Training epoch 	140: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	140: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	140: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	140: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0781, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8630257,rmse=6.4269586
+val_mae=4.8630
+Currebt best mae=4.430648,rmse=6.1095996
+********************141********************
+len:  107
+len:  107
+Training epoch 	141: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	141: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	141: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	141: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0774, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.18969,rmse=6.6307793
+val_mae=5.1897
+Currebt best mae=4.430648,rmse=6.1095996
+********************142********************
+len:  107
+len:  107
+Training epoch 	142: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	142: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	142: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	142: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0768, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7432647,rmse=6.208696
+val_mae=4.7433
+Currebt best mae=4.430648,rmse=6.1095996
+********************143********************
+len:  107
+len:  107
+Training epoch 	143: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	143: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	143: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	143: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0762, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.035654,rmse=6.584768
+val_mae=5.0357
+Currebt best mae=4.430648,rmse=6.1095996
+********************144********************
+len:  107
+len:  107
+Training epoch 	144: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	144: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	144: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	144: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0756, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9380784,rmse=6.425495
+val_mae=4.9381
+Currebt best mae=4.430648,rmse=6.1095996
+********************145********************
+len:  107
+len:  107
+Training epoch 	145: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	145: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	145: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	145: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0750, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.554059,rmse=6.202648
+val_mae=4.5541
+Currebt best mae=4.430648,rmse=6.1095996
+********************146********************
+len:  107
+len:  107
+Training epoch 	146: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	146: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	146: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	146: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0744, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.961474,rmse=6.3911853
+val_mae=4.9615
+Currebt best mae=4.430648,rmse=6.1095996
+********************147********************
+len:  107
+len:  107
+Training epoch 	147: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	147: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	147: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	147: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0739, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5822434,rmse=5.938297
+val_mae=4.5822
+Currebt best mae=4.430648,rmse=6.1095996
+********************148********************
+len:  107
+len:  107
+Training epoch 	148: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	148: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	148: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	148: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0733, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7779703,rmse=6.1023335
+val_mae=4.7780
+Currebt best mae=4.430648,rmse=6.1095996
+********************149********************
+len:  107
+len:  107
+Training epoch 	149: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	149: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	149: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	149: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0728, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.023441,rmse=6.3558006
+val_mae=5.0234
+Currebt best mae=4.430648,rmse=6.1095996
+********************150********************
+len:  107
+len:  107
+Training epoch 	150: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	150: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	150: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	150: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0723, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.781902,rmse=6.3463416
+val_mae=4.7819
+Currebt best mae=4.430648,rmse=6.1095996
+********************151********************
+len:  107
+len:  107
+Training epoch 	151: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	151: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	151: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	151: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0718, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.917617,rmse=6.507873
+val_mae=4.9176
+Currebt best mae=4.430648,rmse=6.1095996
+********************152********************
+len:  107
+len:  107
+Training epoch 	152: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	152: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	152: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	152: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0713, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6198525,rmse=6.146032
+val_mae=4.6199
+Currebt best mae=4.430648,rmse=6.1095996
+********************153********************
+len:  107
+len:  107
+Training epoch 	153: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	153: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	153: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	153: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0708, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.872097,rmse=6.4342813
+val_mae=4.8721
+Currebt best mae=4.430648,rmse=6.1095996
+********************154********************
+len:  107
+len:  107
+Training epoch 	154: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	154: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	154: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	154: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0704, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8832207,rmse=6.3126388
+val_mae=4.8832
+Currebt best mae=4.430648,rmse=6.1095996
+********************155********************
+len:  107
+len:  107
+Training epoch 	155: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	155: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	155: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	155: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0699, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9394426,rmse=6.5085235
+val_mae=4.9394
+Currebt best mae=4.430648,rmse=6.1095996
+********************156********************
+len:  107
+len:  107
+Training epoch 	156: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	156: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	156: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	156: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0695, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.012611,rmse=6.281743
+val_mae=5.0126
+Currebt best mae=4.430648,rmse=6.1095996
+********************157********************
+len:  107
+len:  107
+Training epoch 	157: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	157: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	157: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	157: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0691, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.810125,rmse=6.4587336
+val_mae=4.8101
+Currebt best mae=4.430648,rmse=6.1095996
+********************158********************
+len:  107
+len:  107
+Training epoch 	158: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	158: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	158: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	158: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0686, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.979554,rmse=6.5323515
+val_mae=4.9796
+Currebt best mae=4.430648,rmse=6.1095996
+********************159********************
+len:  107
+len:  107
+Training epoch 	159: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	159: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	159: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	159: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0682, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9277167,rmse=6.3531246
+val_mae=4.9277
+Currebt best mae=4.430648,rmse=6.1095996
+********************160********************
+len:  107
+len:  107
+Training epoch 	160: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	160: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	160: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	160: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0678, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7347546,rmse=6.3091426
+val_mae=4.7348
+Currebt best mae=4.430648,rmse=6.1095996
+********************161********************
+len:  107
+len:  107
+Training epoch 	161: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	161: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	161: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	161: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0674, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.776008,rmse=6.248482
+val_mae=4.7760
+Currebt best mae=4.430648,rmse=6.1095996
+********************162********************
+len:  107
+len:  107
+Training epoch 	162: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	162: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	162: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	162: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0671, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.1432624,rmse=6.6049566
+val_mae=5.1433
+Currebt best mae=4.430648,rmse=6.1095996
+********************163********************
+len:  107
+len:  107
+Training epoch 	163: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	163: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	163: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	163: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0667, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.951613,rmse=6.3732986
+val_mae=4.9516
+Currebt best mae=4.430648,rmse=6.1095996
+********************164********************
+len:  107
+len:  107
+Training epoch 	164: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	164: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	164: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	164: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0663, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0217667,rmse=6.5086966
+val_mae=5.0218
+Currebt best mae=4.430648,rmse=6.1095996
+********************165********************
+len:  107
+len:  107
+Training epoch 	165: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	165: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	165: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	165: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0660, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.745639,rmse=6.2797766
+val_mae=4.7456
+Currebt best mae=4.430648,rmse=6.1095996
+********************166********************
+len:  107
+len:  107
+Training epoch 	166: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	166: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	166: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	166: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0656, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.891081,rmse=6.3130407
+val_mae=4.8911
+Currebt best mae=4.430648,rmse=6.1095996
+********************167********************
+len:  107
+len:  107
+Training epoch 	167: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	167: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	167: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	167: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0653, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9448605,rmse=6.446687
+val_mae=4.9449
+Currebt best mae=4.430648,rmse=6.1095996
+********************168********************
+len:  107
+len:  107
+Training epoch 	168: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	168: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	168: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	168: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0650, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.734789,rmse=6.1348953
+val_mae=4.7348
+Currebt best mae=4.430648,rmse=6.1095996
+********************169********************
+len:  107
+len:  107
+Training epoch 	169: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	169: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	169: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	169: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0646, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9684668,rmse=6.4154406
+val_mae=4.9685
+Currebt best mae=4.430648,rmse=6.1095996
+********************170********************
+len:  107
+len:  107
+Training epoch 	170: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	170: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	170: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	170: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0643, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.094565,rmse=6.4137135
+val_mae=5.0946
+Currebt best mae=4.430648,rmse=6.1095996
+********************171********************
+len:  107
+len:  107
+Training epoch 	171: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	171: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	171: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	171: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0640, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7279863,rmse=6.195014
+val_mae=4.7280
+Currebt best mae=4.430648,rmse=6.1095996
+********************172********************
+len:  107
+len:  107
+Training epoch 	172: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	172: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	172: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	172: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0637, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8342175,rmse=6.2898746
+val_mae=4.8342
+Currebt best mae=4.430648,rmse=6.1095996
+********************173********************
+len:  107
+len:  107
+Training epoch 	173: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	173: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	173: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	173: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0634, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.775844,rmse=6.063831
+val_mae=4.7758
+Currebt best mae=4.430648,rmse=6.1095996
+********************174********************
+len:  107
+len:  107
+Training epoch 	174: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	174: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	174: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	174: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0631, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6630273,rmse=6.075886
+val_mae=4.6630
+Currebt best mae=4.430648,rmse=6.1095996
+********************175********************
+len:  107
+len:  107
+Training epoch 	175: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	175: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	175: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	175: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0628, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7162833,rmse=6.2092237
+val_mae=4.7163
+Currebt best mae=4.430648,rmse=6.1095996
+********************176********************
+len:  107
+len:  107
+Training epoch 	176: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	176: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	176: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	176: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0626, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.643466,rmse=6.053508
+val_mae=4.6435
+Currebt best mae=4.430648,rmse=6.1095996
+********************177********************
+len:  107
+len:  107
+Training epoch 	177: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	177: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	177: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	177: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0623, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8386884,rmse=6.339461
+val_mae=4.8387
+Currebt best mae=4.430648,rmse=6.1095996
+********************178********************
+len:  107
+len:  107
+Training epoch 	178: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	178: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	178: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	178: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0620, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.904006,rmse=6.3355355
+val_mae=4.9040
+Currebt best mae=4.430648,rmse=6.1095996
+********************179********************
+len:  107
+len:  107
+Training epoch 	179: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	179: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	179: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	179: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0618, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7645025,rmse=6.0197754
+val_mae=4.7645
+Currebt best mae=4.430648,rmse=6.1095996
+********************180********************
+len:  107
+len:  107
+Training epoch 	180: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	180: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	180: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	180: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0615, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8811197,rmse=6.3290567
+val_mae=4.8811
+Currebt best mae=4.430648,rmse=6.1095996
+********************181********************
+len:  107
+len:  107
+Training epoch 	181: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	181: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	181: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	181: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0613, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6347127,rmse=6.140326
+val_mae=4.6347
+Currebt best mae=4.430648,rmse=6.1095996
+********************182********************
+len:  107
+len:  107
+Training epoch 	182: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	182: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	182: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	182: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0610, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.79467,rmse=6.235081
+val_mae=4.7947
+Currebt best mae=4.430648,rmse=6.1095996
+********************183********************
+len:  107
+len:  107
+Training epoch 	183: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	183: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	183: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	183: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0608, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7127895,rmse=6.1276155
+val_mae=4.7128
+Currebt best mae=4.430648,rmse=6.1095996
+********************184********************
+len:  107
+len:  107
+Training epoch 	184: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	184: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	184: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	184: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0606, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8097763,rmse=6.1332707
+val_mae=4.8098
+Currebt best mae=4.430648,rmse=6.1095996
+********************185********************
+len:  107
+len:  107
+Training epoch 	185: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	185: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	185: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	185: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0604, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7036157,rmse=5.9595585
+val_mae=4.7036
+Currebt best mae=4.430648,rmse=6.1095996
+********************186********************
+len:  107
+len:  107
+Training epoch 	186: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	186: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	186: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	186: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0601, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.732089,rmse=6.2960343
+val_mae=4.7321
+Currebt best mae=4.430648,rmse=6.1095996
+********************187********************
+len:  107
+len:  107
+Training epoch 	187: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	187: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	187: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	187: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0599, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7852097,rmse=6.2142015
+val_mae=4.7852
+Currebt best mae=4.430648,rmse=6.1095996
+********************188********************
+len:  107
+len:  107
+Training epoch 	188: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	188: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	188: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	188: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0597, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7100735,rmse=6.168486
+val_mae=4.7101
+Currebt best mae=4.430648,rmse=6.1095996
+********************189********************
+len:  107
+len:  107
+Training epoch 	189: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	189: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	189: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	189: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0595, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.869028,rmse=6.207738
+val_mae=4.8690
+Currebt best mae=4.430648,rmse=6.1095996
+********************190********************
+len:  107
+len:  107
+Training epoch 	190: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	190: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	190: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	190: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0593, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8463564,rmse=6.1429443
+val_mae=4.8464
+Currebt best mae=4.430648,rmse=6.1095996
+********************191********************
+len:  107
+len:  107
+Training epoch 	191: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	191: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	191: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	191: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0591, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.887008,rmse=6.210551
+val_mae=4.8870
+Currebt best mae=4.430648,rmse=6.1095996
+********************192********************
+len:  107
+len:  107
+Training epoch 	192: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	192: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	192: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	192: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0589, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8884773,rmse=6.301299
+val_mae=4.8885
+Currebt best mae=4.430648,rmse=6.1095996
+********************193********************
+len:  107
+len:  107
+Training epoch 	193: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	193: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	193: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	193: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0587, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.491917,rmse=5.9883976
+val_mae=4.4919
+Currebt best mae=4.430648,rmse=6.1095996
+********************194********************
+len:  107
+len:  107
+Training epoch 	194: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	194: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	194: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	194: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0585, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7179294,rmse=6.12088
+val_mae=4.7179
+Currebt best mae=4.430648,rmse=6.1095996
+********************195********************
+len:  107
+len:  107
+Training epoch 	195: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	195: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	195: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	195: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0584, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.0054626,rmse=6.2526608
+val_mae=5.0055
+Currebt best mae=4.430648,rmse=6.1095996
+********************196********************
+len:  107
+len:  107
+Training epoch 	196: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	196: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	196: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	196: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0582, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.967421,rmse=6.189007
+val_mae=4.9674
+Currebt best mae=4.430648,rmse=6.1095996
+********************197********************
+len:  107
+len:  107
+Training epoch 	197: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	197: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	197: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	197: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0580, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.853454,rmse=6.2653604
+val_mae=4.8535
+Currebt best mae=4.430648,rmse=6.1095996
+********************198********************
+len:  107
+len:  107
+Training epoch 	198: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	198: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	198: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	198: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0579, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9295974,rmse=6.3796005
+val_mae=4.9296
+Currebt best mae=4.430648,rmse=6.1095996
+********************199********************
+len:  107
+len:  107
+Training epoch 	199: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	199: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	199: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	199: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0577, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.736592,rmse=6.176004
+val_mae=4.7366
+Currebt best mae=4.430648,rmse=6.1095996
+********************200********************
+len:  107
+len:  107
+Training epoch 	200: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	200: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	200: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	200: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0575, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.731581,rmse=6.18231
+val_mae=4.7316
+Currebt best mae=4.430648,rmse=6.1095996
+********************201********************
+len:  107
+len:  107
+Training epoch 	201: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	201: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	201: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	201: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0574, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8438425,rmse=6.149531
+val_mae=4.8438
+Currebt best mae=4.430648,rmse=6.1095996
+********************202********************
+len:  107
+len:  107
+Training epoch 	202: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	202: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	202: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	202: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0572, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=5.1367044,rmse=6.6253934
+val_mae=5.1367
+Currebt best mae=4.430648,rmse=6.1095996
+********************203********************
+len:  107
+len:  107
+Training epoch 	203: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	203: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	203: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	203: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0571, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.9989414,rmse=6.3839264
+val_mae=4.9989
+Currebt best mae=4.430648,rmse=6.1095996
+********************204********************
+len:  107
+len:  107
+Training epoch 	204: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	204: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	204: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	204: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0569, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7093225,rmse=6.170061
+val_mae=4.7093
+Currebt best mae=4.430648,rmse=6.1095996
+********************205********************
+len:  107
+len:  107
+Training epoch 	205: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	205: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	205: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	205: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0568, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8707743,rmse=6.2097178
+val_mae=4.8708
+Currebt best mae=4.430648,rmse=6.1095996
+********************206********************
+len:  107
+len:  107
+Training epoch 	206: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	206: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	206: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	206: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0566, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.703207,rmse=6.102796
+val_mae=4.7032
+Currebt best mae=4.430648,rmse=6.1095996
+********************207********************
+len:  107
+len:  107
+Training epoch 	207: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	207: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	207: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	207: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0565, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7793527,rmse=6.135792
+val_mae=4.7794
+Currebt best mae=4.430648,rmse=6.1095996
+********************208********************
+len:  107
+len:  107
+Training epoch 	208: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	208: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	208: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	208: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0564, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4801974,rmse=5.7961683
+val_mae=4.4802
+Currebt best mae=4.430648,rmse=6.1095996
+********************209********************
+len:  107
+len:  107
+Training epoch 	209: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	209: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	209: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	209: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0562, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.48559,rmse=5.8014755
+val_mae=4.4856
+Currebt best mae=4.430648,rmse=6.1095996
+********************210********************
+len:  107
+len:  107
+Training epoch 	210: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	210: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	210: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	210: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0561, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.121751,rmse=5.5274587
+val_mae=4.1218
+will update:mae=4.121751,rmse=5.5274587
+
+Currebt best mae=4.121751,rmse=5.5274587
+********************211********************
+len:  107
+len:  107
+Training epoch 	211: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	211: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	211: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	211: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0560, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4022036,rmse=5.730556
+val_mae=4.4022
+Currebt best mae=4.121751,rmse=5.5274587
+********************212********************
+len:  107
+len:  107
+Training epoch 	212: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	212: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	212: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	212: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0559, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.462708,rmse=5.8547897
+val_mae=4.4627
+Currebt best mae=4.121751,rmse=5.5274587
+********************213********************
+len:  107
+len:  107
+Training epoch 	213: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	213: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	213: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	213: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0558, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.2495117,rmse=5.6580815
+val_mae=4.2495
+Currebt best mae=4.121751,rmse=5.5274587
+********************214********************
+len:  107
+len:  107
+Training epoch 	214: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	214: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	214: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	214: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0556, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.530746,rmse=6.035092
+val_mae=4.5307
+Currebt best mae=4.121751,rmse=5.5274587
+********************215********************
+len:  107
+len:  107
+Training epoch 	215: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	215: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	215: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	215: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0555, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.64857,rmse=6.038596
+val_mae=4.6486
+Currebt best mae=4.121751,rmse=5.5274587
+********************216********************
+len:  107
+len:  107
+Training epoch 	216: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	216: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	216: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	216: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0554, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.56418,rmse=5.95917
+val_mae=4.5642
+Currebt best mae=4.121751,rmse=5.5274587
+********************217********************
+len:  107
+len:  107
+Training epoch 	217: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	217: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	217: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	217: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0553, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.49189,rmse=5.809971
+val_mae=4.4919
+Currebt best mae=4.121751,rmse=5.5274587
+********************218********************
+len:  107
+len:  107
+Training epoch 	218: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	218: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	218: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	218: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0552, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5374703,rmse=5.8933973
+val_mae=4.5375
+Currebt best mae=4.121751,rmse=5.5274587
+********************219********************
+len:  107
+len:  107
+Training epoch 	219: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	219: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	219: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	219: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0551, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6504383,rmse=6.026305
+val_mae=4.6504
+Currebt best mae=4.121751,rmse=5.5274587
+********************220********************
+len:  107
+len:  107
+Training epoch 	220: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	220: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	220: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	220: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0550, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5421515,rmse=5.888741
+val_mae=4.5422
+Currebt best mae=4.121751,rmse=5.5274587
+********************221********************
+len:  107
+len:  107
+Training epoch 	221: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	221: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	221: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	221: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0549, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.663456,rmse=6.088085
+val_mae=4.6635
+Currebt best mae=4.121751,rmse=5.5274587
+********************222********************
+len:  107
+len:  107
+Training epoch 	222: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	222: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	222: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	222: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0548, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.336058,rmse=5.8060393
+val_mae=4.3361
+Currebt best mae=4.121751,rmse=5.5274587
+********************223********************
+len:  107
+len:  107
+Training epoch 	223: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	223: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	223: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	223: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0547, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5056787,rmse=5.709621
+val_mae=4.5057
+Currebt best mae=4.121751,rmse=5.5274587
+********************224********************
+len:  107
+len:  107
+Training epoch 	224: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	224: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	224: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	224: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0546, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.55002,rmse=5.8664246
+val_mae=4.5500
+Currebt best mae=4.121751,rmse=5.5274587
+********************225********************
+len:  107
+len:  107
+Training epoch 	225: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	225: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	225: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	225: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0546, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4781723,rmse=5.8124776
+val_mae=4.4782
+Currebt best mae=4.121751,rmse=5.5274587
+********************226********************
+len:  107
+len:  107
+Training epoch 	226: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	226: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	226: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	226: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0545, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5504127,rmse=5.848779
+val_mae=4.5504
+Currebt best mae=4.121751,rmse=5.5274587
+********************227********************
+len:  107
+len:  107
+Training epoch 	227: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	227: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	227: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	227: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0544, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.387541,rmse=5.707712
+val_mae=4.3875
+Currebt best mae=4.121751,rmse=5.5274587
+********************228********************
+len:  107
+len:  107
+Training epoch 	228: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	228: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	228: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	228: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0543, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6545153,rmse=5.989065
+val_mae=4.6545
+Currebt best mae=4.121751,rmse=5.5274587
+********************229********************
+len:  107
+len:  107
+Training epoch 	229: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	229: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	229: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	229: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0542, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.679764,rmse=5.9573183
+val_mae=4.6798
+Currebt best mae=4.121751,rmse=5.5274587
+********************230********************
+len:  107
+len:  107
+Training epoch 	230: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	230: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	230: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	230: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0542, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4753237,rmse=5.7835684
+val_mae=4.4753
+Currebt best mae=4.121751,rmse=5.5274587
+********************231********************
+len:  107
+len:  107
+Training epoch 	231: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	231: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	231: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	231: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0541, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.713259,rmse=6.1084495
+val_mae=4.7133
+Currebt best mae=4.121751,rmse=5.5274587
+********************232********************
+len:  107
+len:  107
+Training epoch 	232: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	232: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	232: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	232: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0540, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.614144,rmse=5.873834
+val_mae=4.6141
+Currebt best mae=4.121751,rmse=5.5274587
+********************233********************
+len:  107
+len:  107
+Training epoch 	233: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	233: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	233: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	233: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0539, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5804586,rmse=5.8905644
+val_mae=4.5805
+Currebt best mae=4.121751,rmse=5.5274587
+********************234********************
+len:  107
+len:  107
+Training epoch 	234: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	234: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	234: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	234: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0539, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4404507,rmse=5.7900414
+val_mae=4.4405
+Currebt best mae=4.121751,rmse=5.5274587
+********************235********************
+len:  107
+len:  107
+Training epoch 	235: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	235: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	235: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	235: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0538, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.3978343,rmse=5.7597194
+val_mae=4.3978
+Currebt best mae=4.121751,rmse=5.5274587
+********************236********************
+len:  107
+len:  107
+Training epoch 	236: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	236: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	236: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	236: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0537, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.381754,rmse=5.6586676
+val_mae=4.3818
+Currebt best mae=4.121751,rmse=5.5274587
+********************237********************
+len:  107
+len:  107
+Training epoch 	237: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	237: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	237: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	237: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0537, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.534178,rmse=5.938999
+val_mae=4.5342
+Currebt best mae=4.121751,rmse=5.5274587
+********************238********************
+len:  107
+len:  107
+Training epoch 	238: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	238: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	238: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	238: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0536, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.479525,rmse=5.795778
+val_mae=4.4795
+Currebt best mae=4.121751,rmse=5.5274587
+********************239********************
+len:  107
+len:  107
+Training epoch 	239: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	239: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	239: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	239: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0536, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.557447,rmse=5.93235
+val_mae=4.5574
+Currebt best mae=4.121751,rmse=5.5274587
+********************240********************
+len:  107
+len:  107
+Training epoch 	240: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	240: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	240: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	240: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0535, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.372432,rmse=5.6037507
+val_mae=4.3724
+Currebt best mae=4.121751,rmse=5.5274587
+********************241********************
+len:  107
+len:  107
+Training epoch 	241: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	241: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	241: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	241: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0535, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.500106,rmse=5.821636
+val_mae=4.5001
+Currebt best mae=4.121751,rmse=5.5274587
+********************242********************
+len:  107
+len:  107
+Training epoch 	242: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	242: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	242: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	242: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0534, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.518065,rmse=5.805066
+val_mae=4.5181
+Currebt best mae=4.121751,rmse=5.5274587
+********************243********************
+len:  107
+len:  107
+Training epoch 	243: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	243: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	243: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	243: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0534, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.439072,rmse=5.7993417
+val_mae=4.4391
+Currebt best mae=4.121751,rmse=5.5274587
+********************244********************
+len:  107
+len:  107
+Training epoch 	244: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	244: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	244: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	244: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0533, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.3900833,rmse=5.7782936
+val_mae=4.3901
+Currebt best mae=4.121751,rmse=5.5274587
+********************245********************
+len:  107
+len:  107
+Training epoch 	245: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	245: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	245: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	245: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0533, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.700877,rmse=5.8554316
+val_mae=4.7009
+Currebt best mae=4.121751,rmse=5.5274587
+********************246********************
+len:  107
+len:  107
+Training epoch 	246: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	246: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	246: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	246: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0532, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.652448,rmse=5.9130225
+val_mae=4.6524
+Currebt best mae=4.121751,rmse=5.5274587
+********************247********************
+len:  107
+len:  107
+Training epoch 	247: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	247: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	247: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	247: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0532, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6658006,rmse=6.00309
+val_mae=4.6658
+Currebt best mae=4.121751,rmse=5.5274587
+********************248********************
+len:  107
+len:  107
+Training epoch 	248: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	248: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	248: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	248: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0531, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7375426,rmse=6.0900903
+val_mae=4.7375
+Currebt best mae=4.121751,rmse=5.5274587
+********************249********************
+len:  107
+len:  107
+Training epoch 	249: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	249: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	249: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	249: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0531, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7789874,rmse=6.0451803
+val_mae=4.7790
+Currebt best mae=4.121751,rmse=5.5274587
+********************250********************
+len:  107
+len:  107
+Training epoch 	250: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	250: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	250: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	250: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0530, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.358037,rmse=5.6596093
+val_mae=4.3580
+Currebt best mae=4.121751,rmse=5.5274587
+********************251********************
+len:  107
+len:  107
+Training epoch 	251: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	251: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	251: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	251: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0530, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5283957,rmse=5.9552503
+val_mae=4.5284
+Currebt best mae=4.121751,rmse=5.5274587
+********************252********************
+len:  107
+len:  107
+Training epoch 	252: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	252: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	252: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	252: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0530, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.802629,rmse=6.155314
+val_mae=4.8026
+Currebt best mae=4.121751,rmse=5.5274587
+********************253********************
+len:  107
+len:  107
+Training epoch 	253: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	253: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	253: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	253: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0529, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5820684,rmse=5.8111067
+val_mae=4.5821
+Currebt best mae=4.121751,rmse=5.5274587
+********************254********************
+len:  107
+len:  107
+Training epoch 	254: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	254: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	254: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	254: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0529, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.504905,rmse=5.7820845
+val_mae=4.5049
+Currebt best mae=4.121751,rmse=5.5274587
+********************255********************
+len:  107
+len:  107
+Training epoch 	255: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	255: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	255: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	255: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0528, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6883597,rmse=5.991377
+val_mae=4.6884
+Currebt best mae=4.121751,rmse=5.5274587
+********************256********************
+len:  107
+len:  107
+Training epoch 	256: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	256: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	256: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	256: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0528, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.483688,rmse=5.805098
+val_mae=4.4837
+Currebt best mae=4.121751,rmse=5.5274587
+********************257********************
+len:  107
+len:  107
+Training epoch 	257: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	257: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	257: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	257: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0528, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.405064,rmse=5.622887
+val_mae=4.4051
+Currebt best mae=4.121751,rmse=5.5274587
+********************258********************
+len:  107
+len:  107
+Training epoch 	258: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	258: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	258: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	258: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0528, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5825477,rmse=5.997048
+val_mae=4.5825
+Currebt best mae=4.121751,rmse=5.5274587
+********************259********************
+len:  107
+len:  107
+Training epoch 	259: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	259: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	259: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	259: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0527, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.600106,rmse=5.8830333
+val_mae=4.6001
+Currebt best mae=4.121751,rmse=5.5274587
+********************260********************
+len:  107
+len:  107
+Training epoch 	260: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	260: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	260: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	260: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0527, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.446781,rmse=5.823702
+val_mae=4.4468
+Currebt best mae=4.121751,rmse=5.5274587
+********************261********************
+len:  107
+len:  107
+Training epoch 	261: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	261: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	261: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	261: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0527, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.687966,rmse=5.998243
+val_mae=4.6880
+Currebt best mae=4.121751,rmse=5.5274587
+********************262********************
+len:  107
+len:  107
+Training epoch 	262: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	262: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	262: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	262: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0526, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.8151293,rmse=6.213896
+val_mae=4.8151
+Currebt best mae=4.121751,rmse=5.5274587
+********************263********************
+len:  107
+len:  107
+Training epoch 	263: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	263: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	263: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	263: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0526, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7439456,rmse=6.0735283
+val_mae=4.7439
+Currebt best mae=4.121751,rmse=5.5274587
+********************264********************
+len:  107
+len:  107
+Training epoch 	264: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	264: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	264: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	264: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0526, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.577212,rmse=5.8829165
+val_mae=4.5772
+Currebt best mae=4.121751,rmse=5.5274587
+********************265********************
+len:  107
+len:  107
+Training epoch 	265: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	265: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	265: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	265: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0526, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6225047,rmse=5.926495
+val_mae=4.6225
+Currebt best mae=4.121751,rmse=5.5274587
+********************266********************
+len:  107
+len:  107
+Training epoch 	266: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	266: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	266: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	266: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0525, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.2522054,rmse=5.5922837
+val_mae=4.2522
+Currebt best mae=4.121751,rmse=5.5274587
+********************267********************
+len:  107
+len:  107
+Training epoch 	267: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	267: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	267: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	267: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0525, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.222448,rmse=5.6101017
+val_mae=4.2224
+Currebt best mae=4.121751,rmse=5.5274587
+********************268********************
+len:  107
+len:  107
+Training epoch 	268: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	268: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	268: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	268: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0525, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5750937,rmse=5.793298
+val_mae=4.5751
+Currebt best mae=4.121751,rmse=5.5274587
+********************269********************
+len:  107
+len:  107
+Training epoch 	269: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	269: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	269: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	269: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0525, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.1247735,rmse=5.576575
+val_mae=4.1248
+Currebt best mae=4.121751,rmse=5.5274587
+********************270********************
+len:  107
+len:  107
+Training epoch 	270: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	270: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	270: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	270: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0525, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.607196,rmse=5.9554434
+val_mae=4.6072
+Currebt best mae=4.121751,rmse=5.5274587
+********************271********************
+len:  107
+len:  107
+Training epoch 	271: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	271: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	271: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	271: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0524, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.202787,rmse=5.5603185
+val_mae=4.2028
+Currebt best mae=4.121751,rmse=5.5274587
+********************272********************
+len:  107
+len:  107
+Training epoch 	272: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	272: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	272: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	272: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0524, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.2921195,rmse=5.591634
+val_mae=4.2921
+Currebt best mae=4.121751,rmse=5.5274587
+********************273********************
+len:  107
+len:  107
+Training epoch 	273: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	273: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	273: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	273: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0524, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.561296,rmse=5.9196577
+val_mae=4.5613
+Currebt best mae=4.121751,rmse=5.5274587
+********************274********************
+len:  107
+len:  107
+Training epoch 	274: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	274: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	274: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	274: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0524, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.461858,rmse=5.789248
+val_mae=4.4619
+Currebt best mae=4.121751,rmse=5.5274587
+********************275********************
+len:  107
+len:  107
+Training epoch 	275: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	275: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	275: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	275: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0524, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.359739,rmse=5.7222447
+val_mae=4.3597
+Currebt best mae=4.121751,rmse=5.5274587
+********************276********************
+len:  107
+len:  107
+Training epoch 	276: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	276: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	276: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	276: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0524, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.082856,rmse=5.3868012
+val_mae=4.0829
+will update:mae=4.082856,rmse=5.3868012
+
+Currebt best mae=4.082856,rmse=5.3868012
+********************277********************
+len:  107
+len:  107
+Training epoch 	277: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	277: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	277: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	277: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0524, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4139,rmse=5.7442937
+val_mae=4.4139
+Currebt best mae=4.082856,rmse=5.3868012
+********************278********************
+len:  107
+len:  107
+Training epoch 	278: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	278: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	278: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	278: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.425397,rmse=5.7838287
+val_mae=4.4254
+Currebt best mae=4.082856,rmse=5.3868012
+********************279********************
+len:  107
+len:  107
+Training epoch 	279: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	279: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	279: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	279: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4642615,rmse=5.720848
+val_mae=4.4643
+Currebt best mae=4.082856,rmse=5.3868012
+********************280********************
+len:  107
+len:  107
+Training epoch 	280: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	280: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	280: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	280: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5663776,rmse=5.881611
+val_mae=4.5664
+Currebt best mae=4.082856,rmse=5.3868012
+********************281********************
+len:  107
+len:  107
+Training epoch 	281: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	281: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	281: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	281: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5882373,rmse=5.7893505
+val_mae=4.5882
+Currebt best mae=4.082856,rmse=5.3868012
+********************282********************
+len:  107
+len:  107
+Training epoch 	282: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	282: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	282: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	282: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.610609,rmse=5.899344
+val_mae=4.6106
+Currebt best mae=4.082856,rmse=5.3868012
+********************283********************
+len:  107
+len:  107
+Training epoch 	283: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	283: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	283: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	283: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.733646,rmse=6.1664314
+val_mae=4.7336
+Currebt best mae=4.082856,rmse=5.3868012
+********************284********************
+len:  107
+len:  107
+Training epoch 	284: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	284: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	284: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	284: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.582649,rmse=5.8913503
+val_mae=4.5826
+Currebt best mae=4.082856,rmse=5.3868012
+********************285********************
+len:  107
+len:  107
+Training epoch 	285: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	285: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	285: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	285: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.592192,rmse=5.9293556
+val_mae=4.5922
+Currebt best mae=4.082856,rmse=5.3868012
+********************286********************
+len:  107
+len:  107
+Training epoch 	286: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	286: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	286: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	286: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.691453,rmse=6.0206466
+val_mae=4.6915
+Currebt best mae=4.082856,rmse=5.3868012
+********************287********************
+len:  107
+len:  107
+Training epoch 	287: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	287: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	287: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	287: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0523, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.670254,rmse=5.9933386
+val_mae=4.6703
+Currebt best mae=4.082856,rmse=5.3868012
+********************288********************
+len:  107
+len:  107
+Training epoch 	288: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	288: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	288: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	288: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.559999,rmse=5.932514
+val_mae=4.5600
+Currebt best mae=4.082856,rmse=5.3868012
+********************289********************
+len:  107
+len:  107
+Training epoch 	289: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	289: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	289: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	289: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6493864,rmse=5.9871945
+val_mae=4.6494
+Currebt best mae=4.082856,rmse=5.3868012
+********************290********************
+len:  107
+len:  107
+Training epoch 	290: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	290: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	290: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	290: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.3735433,rmse=5.796147
+val_mae=4.3735
+Currebt best mae=4.082856,rmse=5.3868012
+********************291********************
+len:  107
+len:  107
+Training epoch 	291: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	291: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	291: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	291: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.7851415,rmse=5.984923
+val_mae=4.7851
+Currebt best mae=4.082856,rmse=5.3868012
+********************292********************
+len:  107
+len:  107
+Training epoch 	292: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	292: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	292: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	292: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.6208663,rmse=6.008308
+val_mae=4.6209
+Currebt best mae=4.082856,rmse=5.3868012
+********************293********************
+len:  107
+len:  107
+Training epoch 	293: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	293: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	293: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	293: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4901457,rmse=5.909062
+val_mae=4.4901
+Currebt best mae=4.082856,rmse=5.3868012
+********************294********************
+len:  107
+len:  107
+Training epoch 	294: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	294: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	294: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	294: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4850154,rmse=5.878995
+val_mae=4.4850
+Currebt best mae=4.082856,rmse=5.3868012
+********************295********************
+len:  107
+len:  107
+Training epoch 	295: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	295: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	295: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	295: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5429225,rmse=6.022904
+val_mae=4.5429
+Currebt best mae=4.082856,rmse=5.3868012
+********************296********************
+len:  107
+len:  107
+Training epoch 	296: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	296: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	296: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	296: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.769995,rmse=6.0802126
+val_mae=4.7700
+Currebt best mae=4.082856,rmse=5.3868012
+********************297********************
+len:  107
+len:  107
+Training epoch 	297: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	297: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	297: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	297: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.523341,rmse=5.9078193
+val_mae=4.5233
+Currebt best mae=4.082856,rmse=5.3868012
+********************298********************
+len:  107
+len:  107
+Training epoch 	298: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	298: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	298: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	298: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.5591364,rmse=6.0375767
+val_mae=4.5591
+Currebt best mae=4.082856,rmse=5.3868012
+********************299********************
+len:  107
+len:  107
+Training epoch 	299: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	299: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	299: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	299: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.4869957,rmse=5.9066806
+val_mae=4.4870
+Currebt best mae=4.082856,rmse=5.3868012
+********************300********************
+len:  107
+len:  107
+Training epoch 	300: 1\4len:  107
+len:  107
+len:  107
+Training epoch 	300: 2\4len:  107
+len:  107
+len:  107
+Training epoch 	300: 3\4len:  107
+len:  107
+len:  107
+Training epoch 	300: 4\4len:  107
+len:  107
+len:  107
+train loss: tensor(0.0522, device='cuda:1', grad_fn=<DivBackward0>)
+len:  107
+len:  35
+len:  35
+In log_regression_val:mae=4.622195,rmse=6.045862
+val_mae=4.6222
+Currebt best mae=4.082856,rmse=5.3868012
+Final best val mae=4.082856,rmse=5.3868012
